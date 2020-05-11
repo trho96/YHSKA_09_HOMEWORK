@@ -13,7 +13,15 @@ define root view entity ZC_LANGUAGE_HSKA09
                     purpose:         #STANDARD,
                     type:            #IDENTIFICATION_REFERENCE,
                     label:           'Programming Language',
-                    position:        10 } ]
+                    position:        10 }, 
+                    { id: 'idHeader' ,
+                      type: #DATAPOINT_REFERENCE ,
+                      position: 10,
+                      label: 'Header' ,
+                      purpose: #HEADER ,
+                      targetQualifier: 'rating' } 
+                    
+      ]
       @UI.hidden: true
   key language_id,
       @UI: {
@@ -28,17 +36,21 @@ define root view entity ZC_LANGUAGE_HSKA09
       @UI: {
            lineItem:       [ { position: 30, importance: #HIGH } ],
            identification: [ { position: 30, label: 'Shares' } ] }
-      @Semantics.amount.currencyCode: 'CurrencyCode'
+//      @Semantics.amount.currencyCode: 'CurrencyCode'
       popularity,
       @UI: {
       lineItem:       [ { position: 40, importance: #HIGH } ],
       identification: [ { position: 40, label: 'Trend' } ] }
-      @Semantics.amount.currencyCode: 'CurrencyCode'
+//      @Semantics.amount.currencyCode: 'CurrencyCode'
       trend,
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_Currency', element: 'Currency' }}]
       cuky_field as CurrencyCode,
       @UI: {
       lineItem:       [ { position: 50, importance: #HIGH } ],
       identification: [ { position: 50, label: 'Region' } ] }
-      region
+      region,
+      @UI.lineItem:[ { position: 60,type: #AS_DATAPOINT } ]
+      @UI.dataPoint:{title:'Product Rating',visualization:#RATING,targetValue:5}
+      @UI.identification:[{position:60,label:'Rating [0-5]'}]
+      rating
 }

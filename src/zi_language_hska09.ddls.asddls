@@ -1,4 +1,4 @@
-  @AbapCatalog.sqlViewName: 'ZVI_LANG_HSKA09'
+@AbapCatalog.sqlViewName: 'ZVI_LANG_HSKA09'
 @AbapCatalog.compiler.compareFilter: true
 @AbapCatalog.preserveKey: true
 @AccessControl.authorizationCheck: #CHECK
@@ -14,6 +14,7 @@ define root view ZI_LANGUAGE_HSKA09
       popularity,
       trend,
       region,
-      cuky_field
+      cuky_field,
+      rating
       
 }
