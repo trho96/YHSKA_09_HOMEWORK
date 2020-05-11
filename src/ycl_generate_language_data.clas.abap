@@ -8,13 +8,16 @@ CLASS ycl_generate_language_data DEFINITION
   PROTECTED SECTION.
   PRIVATE SECTION.
     DATA:
-            lv_html_table TYPE string_table.
+      lv_html_table TYPE string_table,
+      lt_lang_db    TYPE STANDARD TABLE OF yhska09_language.
+
 ENDCLASS.
 
 
 
 CLASS ycl_generate_language_data IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
+
     DATA(lv_url) = |http://pypl.github.io/PYPL.html|.
     DATA(lv_http_client) = NEW lcl_http_client(  ).
     DATA(lt_html) = lv_http_client->request_language_data( EXPORTING im_url = lv_url ).
@@ -34,18 +37,23 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
 
         SPLIT result AT '\' INTO TABLE DATA(itab).
 
-
+        DATA: lv_cnt TYPE i.
+        lv_cnt = 1.
         LOOP AT itab INTO DATA(line).
-          out->write( line ).
+* out->write( line ).
 
-          DATA(matcherline) = cl_abap_matcher=>create( pattern     = '_+(.+)____(.+)__(.+)__(.+)__.*'
+          DATA(matcherline) = cl_abap_matcher=>create( pattern     = '_+([0-9]+)_+([^_]+)_+([^_]+)_+([^_]+)_+.*'
                                                text = line
                                                ignore_case = abap_true ).
           IF abap_true = matcherline->match( ).
-            out->write( matcherline->get_submatch( 1 ) ).   "Ranking
-            out->write( matcherline->get_submatch( 2 ) ).   "Language
-            out->write( matcherline->get_submatch( 3 ) ).   "Share
-            out->write( matcherline->get_submatch( 4 ) ).   "Trend
+            DATA(lo_lang_data) = VALUE yhska09_language( language_id = lv_cnt
+                                                         rank = matcherline->get_submatch( 1 )
+                                                         name = matcherline->get_submatch( 2 )
+                                                         popularity = matcherline->get_submatch( 3 )
+                                                         trend = matcherline->get_submatch( 4 )
+                                                         region = 'All').
+            APPEND lo_lang_data TO lt_lang_db.
+            lv_cnt = lv_cnt + 1.
           ENDIF.
 
         ENDLOOP.
@@ -53,8 +61,14 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
 *        out->write( |Keine Tags gefunden.| ).
       ENDIF.
 
-
     ENDLOOP.
+    DELETE FROM yhska09_language.
+    INSERT yhska09_language FROM TABLE @lt_lang_db.
+
+    SELECT * FROM yhska09_language INTO TABLE @lt_lang_db.
+    out->write( sy-dbcnt ).
+    out->write( 'Programming Language data inserted successfully!').
+
   ENDMETHOD.
 
 ENDCLASS.
