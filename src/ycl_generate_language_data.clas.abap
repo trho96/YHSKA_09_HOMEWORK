@@ -20,22 +20,35 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
     DATA(lt_html) = lv_http_client->request_language_data( EXPORTING im_url = lv_url ).
 
     LOOP AT lt_html INTO DATA(asdas) WHERE table_line CS 'table = "<!-- begin section All-->\'.
-*      out->write( asdas ).
-*      out->write( '-----' ).
       DATA(matcher) = cl_abap_matcher=>create( pattern     = '<([!A-Za-z][A-Za-z0-9]*)([^>]*)>|</([A-Za-z][A-Za-z0-9]*)>'
-*                                             text        = '<td class=center>1</td><td class=center></td><td>Python</td><td class=right>31.17 %</td><td class=\"right optCol\">+4.3 %</td></tr>\'
                                                text = asdas
                                                ignore_case = abap_true ).
 
-      IF matcher->replace_all( ` ` ) > 0.
-*      out->write( matcher->text ).
-*        DATA(matcher2) = matcher->text.
-        DATA(result) = substring_after( val = matcher->text sub = '\' ).
-        REPLACE ALL OCCURRENCES OF REGEX ' %' IN result WITH '%'.
+      IF matcher->replace_all( `_` ) > 0.
 
-        REPLACE ALL OCCURRENCES OF REGEX ' +' IN result WITH ` `.
+        DATA(result) = substring_from( val = matcher->text sub = '_1' ).
+        REPLACE ALL OCCURRENCES OF REGEX ' %' IN result WITH ''.
 
-        out->write( result ).
+
+        REPLACE ALL OCCURRENCES OF REGEX '\n' IN result WITH ``.
+
+        SPLIT result AT '\' INTO TABLE DATA(itab).
+
+
+        LOOP AT itab INTO DATA(line).
+          out->write( line ).
+
+          DATA(matcherline) = cl_abap_matcher=>create( pattern     = '_+(.+)____(.+)__(.+)__(.+)__.*'
+                                               text = line
+                                               ignore_case = abap_true ).
+          IF abap_true = matcherline->match( ).
+            out->write( matcherline->get_submatch( 1 ) ).   "Ranking
+            out->write( matcherline->get_submatch( 2 ) ).   "Language
+            out->write( matcherline->get_submatch( 3 ) ).   "Share
+            out->write( matcherline->get_submatch( 4 ) ).   "Trend
+          ENDIF.
+
+        ENDLOOP.
       ELSE.
 *        out->write( |Keine Tags gefunden.| ).
       ENDIF.
