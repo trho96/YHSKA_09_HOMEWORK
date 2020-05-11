@@ -13,14 +13,14 @@ define root view entity ZC_LANGUAGE_HSKA09
                     purpose:         #STANDARD,
                     type:            #IDENTIFICATION_REFERENCE,
                     label:           'Programming Language',
-                    position:        10 }, 
+                    position:        10 },
                     { id: 'idHeader' ,
                       type: #DATAPOINT_REFERENCE ,
                       position: 10,
                       label: 'Header' ,
                       purpose: #HEADER ,
-                      targetQualifier: 'rating' } 
-                    
+                      targetQualifier: 'rating' }
+
       ]
       @UI.hidden: true
   key language_id,
@@ -31,17 +31,18 @@ define root view entity ZC_LANGUAGE_HSKA09
       name,
       @UI: {
       lineItem:       [ { position: 20, importance: #HIGH } ],
-      identification: [ { position: 20, label: 'RANK' } ] }
+      identification: [ { position: 20, label: 'Rank' } ] ,
+      dataPoint: {title: 'Rank'}}
       rank,
-      @UI: {
-           lineItem:       [ { position: 30, importance: #HIGH } ],
-           identification: [ { position: 30, label: 'Shares' } ] }
-//      @Semantics.amount.currencyCode: 'CurrencyCode'
+      @UI.lineItem:       [ { position: 30, type: #AS_DATAPOINT} ]
+      @UI.identification: [ { position: 30, label: 'Shares' } ]
+      //      @Semantics.amount.currencyCode: 'CurrencyCode'
+      @UI.dataPoint:{title:'Popularity in %',visualization:#PROGRESS, targetValueElement: 'popularity', targetValue: 100}
       popularity,
       @UI: {
       lineItem:       [ { position: 40, importance: #HIGH } ],
       identification: [ { position: 40, label: 'Trend' } ] }
-//      @Semantics.amount.currencyCode: 'CurrencyCode'
+      //      @Semantics.amount.currencyCode: 'CurrencyCode'
       trend,
       @Consumption.valueHelpDefinition: [{entity: {name: 'I_Currency', element: 'Currency' }}]
       cuky_field as CurrencyCode,
@@ -50,7 +51,7 @@ define root view entity ZC_LANGUAGE_HSKA09
       identification: [ { position: 50, label: 'Region' } ] }
       region,
       @UI.lineItem:[ { position: 60,type: #AS_DATAPOINT } ]
-      @UI.dataPoint:{title:'Product Rating',visualization:#RATING,targetValue:5}
+      @UI.dataPoint:{title:'Rating',visualization:#RATING,targetValue:5}
       @UI.identification:[{position:60,label:'Rating [0-5]'}]
       rating
 }

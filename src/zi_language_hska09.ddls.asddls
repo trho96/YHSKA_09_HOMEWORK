@@ -9,10 +9,14 @@ define root view ZI_LANGUAGE_HSKA09
 {
       //ranking
   key language_id,
+      @EndUserText.label: 'Programming Language Name'
       name,
+      @EndUserText.label: 'Rank'
       rank,
       popularity,
+      @EndUserText.label: 'Trend'
       trend,
+      @EndUserText.label: 'Region'
       region,
       cuky_field,
       rating
