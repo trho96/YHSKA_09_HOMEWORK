@@ -6,10 +6,13 @@ CLASS ycl_generate_language_data DEFINITION
   PUBLIC SECTION.
     INTERFACES if_oo_adt_classrun.
   PROTECTED SECTION.
+    DATA:
+      cnt        TYPE i,
+      lt_lang_db TYPE STANDARD TABLE OF yhska09_language.
   PRIVATE SECTION.
     DATA:
-      lv_html_table TYPE string_table,
-      lt_lang_db    TYPE STANDARD TABLE OF yhska09_language.
+      lv_html_table TYPE string_table.
+
 
 ENDCLASS.
 
@@ -21,47 +24,31 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
     DATA(lv_url) = |http://pypl.github.io/PYPL.html|.
     DATA(lv_http_client) = NEW lcl_http_client(  ).
     DATA(lt_html) = lv_http_client->request_language_data( EXPORTING im_url = lv_url ).
+    DATA(lv_html_parser) = NEW lcl_html_parser( im_html = lt_html ).
+    cnt = 1.
+    lv_html_parser->get_data( EXPORTING im_region = 'ALL'
+                              CHANGING  ch_cnt = cnt
+                                        ch_lang_db = lt_lang_db ).
 
-    LOOP AT lt_html INTO DATA(asdas) WHERE table_line CS 'table = "<!-- begin section All-->\'.
-      DATA(matcher) = cl_abap_matcher=>create( pattern     = '<([!A-Za-z][A-Za-z0-9]*)([^>]*)>|</([A-Za-z][A-Za-z0-9]*)>'
-                                               text = asdas
-                                               ignore_case = abap_true ).
+    lv_html_parser->get_data( EXPORTING im_region = 'DE'
+                              CHANGING  ch_cnt = cnt
+                                        ch_lang_db = lt_lang_db ).
 
-      IF matcher->replace_all( `_` ) > 0.
+    lv_html_parser->get_data( EXPORTING im_region = 'US'
+                              CHANGING  ch_cnt = cnt
+                                        ch_lang_db = lt_lang_db ).
 
-        DATA(result) = substring_from( val = matcher->text sub = '_1' ).
-        REPLACE ALL OCCURRENCES OF REGEX ' %' IN result WITH ''.
+    lv_html_parser->get_data( EXPORTING im_region = 'IN'
+                              CHANGING  ch_cnt = cnt
+                                        ch_lang_db = lt_lang_db ).
 
+    lv_html_parser->get_data( EXPORTING im_region = 'GB'
+                              CHANGING  ch_cnt = cnt
+                                        ch_lang_db = lt_lang_db ).
 
-        REPLACE ALL OCCURRENCES OF REGEX '\n' IN result WITH ``.
-
-        SPLIT result AT '\' INTO TABLE DATA(itab).
-
-        DATA: lv_cnt TYPE i.
-        lv_cnt = 1.
-        LOOP AT itab INTO DATA(line).
-* out->write( line ).
-
-          DATA(matcherline) = cl_abap_matcher=>create( pattern     = '_+([0-9]+)_+([^_]+)_+([^_]+)_+([^_]+)_+.*'
-                                               text = line
-                                               ignore_case = abap_true ).
-          IF abap_true = matcherline->match( ).
-            DATA(lo_lang_data) = VALUE yhska09_language( language_id = lv_cnt
-                                                         rank = matcherline->get_submatch( 1 )
-                                                         name = matcherline->get_submatch( 2 )
-                                                         popularity = matcherline->get_submatch( 3 )
-                                                         trend = matcherline->get_submatch( 4 )
-                                                         region = 'All').
-            APPEND lo_lang_data TO lt_lang_db.
-            lv_cnt = lv_cnt + 1.
-          ENDIF.
-
-        ENDLOOP.
-      ELSE.
-*        out->write( |Keine Tags gefunden.| ).
-      ENDIF.
-
-    ENDLOOP.
+    lv_html_parser->get_data( EXPORTING im_region = 'FR'
+                              CHANGING  ch_cnt = cnt
+                                        ch_lang_db = lt_lang_db ).
     DELETE FROM yhska09_language.
     INSERT yhska09_language FROM TABLE @lt_lang_db.
 
