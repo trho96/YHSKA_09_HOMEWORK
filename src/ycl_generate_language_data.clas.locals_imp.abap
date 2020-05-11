@@ -9,7 +9,7 @@ CLASS lcl_http_client DEFINITION
     METHODS:
       request_language_data
         IMPORTING im_url         TYPE string
-        RETURNING VALUE(lo_response_text) TYPE string.
+        RETURNING VALUE(lt_ctab) TYPE string_table.
   PROTECTED SECTION.
   PRIVATE SECTION.
     DATA:
@@ -22,8 +22,8 @@ CLASS lcl_http_client IMPLEMENTATION.
     DATA(lo_http) = cl_web_http_client_manager=>create_by_http_destination( lo_destination ).
     DATA(lo_request) = lo_http->get_http_request( ).
     DATA(lo_reponse) = lo_http->execute( i_method = if_web_http_client=>get ).
-    lo_response_text = lo_reponse->get_text(  ).
-*    SPLIT lo_response_text AT cl_abap_char_utilities=>cr_lf INTO TABLE lt_ctab.
+    DATA(lo_response_text) = lo_reponse->get_text(  ).
+    SPLIT lo_response_text AT cl_abap_char_utilities=>cr_lf INTO TABLE lt_ctab.
 
   ENDMETHOD.
 
