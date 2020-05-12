@@ -5,7 +5,7 @@
    <DDLS>
     <DDLNAME>ZI_LANGUAGE_HSKA09</DDLNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
-    <DDTEXT>Data model for languages</DDTEXT>
+    <DDTEXT>Data model for language</DDTEXT>
     <SOURCE_TYPE>V</SOURCE_TYPE>
    </DDLS>
   </asx:values>

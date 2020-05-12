@@ -4,7 +4,7 @@
 @AccessControl.authorizationCheck: #CHECK
 @EndUserText.label: 'Data model for todo'
 define root view ZI_TODO_HSKA09 as select from yhska09_todo as todo {
-     key todokey,
+     key language_id,
      name,
      @EndUserText.label: 'Todo'
      todo

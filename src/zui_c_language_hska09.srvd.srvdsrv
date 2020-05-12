@@ -1,4 +1,0 @@
-@EndUserText.label: 'Service definition for language'
-define service ZUI_C_LANGUAGE_HSKA09 {
-  expose ZC_LANGUAGE_HSKA09 as LanguageProcessor;
-}
