@@ -1,6 +1,5 @@
 @EndUserText.label: 'Language projection view - Processor'
 @AccessControl.authorizationCheck: #CHECK
-
 @UI: {
  headerInfo: { typeName: 'ProgrammingLanguage', typeNamePlural: 'ProgrammingLanguages', title: { type: #STANDARD, value: 'language_id' } } }
 

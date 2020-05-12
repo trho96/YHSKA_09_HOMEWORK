@@ -6,6 +6,7 @@
 define root view ZI_LANGUAGE_HSKA09
   as select from yhska09_language as ranking
   /* Associations */
+    association [0..*] to yhska09_todo  as _Todo on $projection.name = _Todo.name
 {
       //ranking
   key language_id,
@@ -19,6 +20,8 @@ define root view ZI_LANGUAGE_HSKA09
       @EndUserText.label: 'Region'
       region,
       cuky_field,
-      rating
+      rating,
       
+      @EndUserText.label: 'Todo'
+      _Todo.todo as Todo
 }
