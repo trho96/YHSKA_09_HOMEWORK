@@ -18,33 +18,42 @@ define root view entity ZC_LANGUAGE_HSKA09
   key listing_id,
       @UI: {
          lineItem:       [ { position: 10, importance: #HIGH } , { position: 10, type: #AS_DATAPOINT } ],
-         identification: [ { position: 30, label: 'Programming Language' } ] }
+         identification: [ { position: 10, label: 'Programming Language' } ] }
       @Search.defaultSearchElement: true
       @UI.dataPoint:{title:'Programming Language', targetValueElement: 'name'}
       name,
-      @UI.lineItem:       [ { position: 20, type: #AS_DATAPOINT} ]
+      @UI:{
+         lineItem:       [ { position: 20, type: #AS_DATAPOINT} ],
+         identification: [ { position: 20, label: 'Popularity' } ]}
       @UI.dataPoint:{title:'Popularity in %',visualization:#PROGRESS, targetValueElement: 'popularity', targetValue: 100}
       popularity,
-      @UI.lineItem:       [ { position: 30, importance: #HIGH } ] 
+      @UI:{
+         lineItem:       [ { position: 30, importance: #HIGH } ],
+         identification: [ { position: 30, label: 'Trend' } ]}
       trend,
       @UI: {
           lineItem:       [ { position: 40, importance: #HIGH } ],
           identification: [ { position: 40, label: 'Region' } ] }
       region,
 
-      @UI.lineItem:[ { position: 50, type: #AS_DATAPOINT }]
+      @UI: {lineItem:[ { position: 50, type: #AS_DATAPOINT }],
+      identification: [ { position: 50, label: 'Rating' } ]}
       @UI.dataPoint:{title:'Rating',visualization:#RATING,targetValue:5}
       Rating,
       @UI: {
           lineItem:       [ { position: 60, importance: #HIGH },
-           { type: #FOR_ACTION, dataAction: 'acceptBlacklisted', label: 'Set Blacklisted' } ] }
+           { type: #FOR_ACTION, dataAction: 'acceptBlacklisted', label: 'Set Blacklisted' } ],
+           identification: [ { position: 60, label: 'BlackListed' } ] }
       @UI.dataPoint:{title:'Blacklisted', targetValueElement: 'Blacklisted'}
       Blacklisted,
       @UI: {
-          identification: [ { position: 10, label: 'Developer' } ] }
+          identification: [ { position: 70, label: 'Developer' } ] }
       Developer,
       @UI: {
-          identification: [ { position: 20, label: 'Publishing Year' } ] }
-      Publishing_Year
+          identification: [ { position: 80, label: 'Publishing Year' } ] }
+      Publishing_Year,
+       @UI: {lineItem:[ { position: 90, importance: #HIGH }],
+       identification: [ { position: 90, label: 'Language ID' } ]}
+       language_id
 
 }

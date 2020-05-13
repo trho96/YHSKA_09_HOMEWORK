@@ -50,6 +50,7 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
                          ( language_id = '00000000000000000000000000000025' name = 'Cobol' rating = 0 publishing_year = 1960 developer = 'Grace Hopper, CODASYL' blacklisted = 'N' )
                          ( language_id = '00000000000000000000000000000026' name = 'Groovy' rating = 0 publishing_year = 2003 developer = 'James Strachan' blacklisted = 'N' )
                          ( language_id = '00000000000000000000000000000027' name = 'Perl' rating = 0 publishing_year = 1987 developer = 'Larry Wall' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000028' name = 'Ada' rating = 0 publishing_year = 1980 developer = 'Jean Ichbiah' blacklisted = 'N' )
      ).
 
     DELETE FROM yhska09_types.

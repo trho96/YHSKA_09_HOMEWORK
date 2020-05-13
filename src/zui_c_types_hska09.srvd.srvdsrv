@@ -1,0 +1,4 @@
+@EndUserText.label: 'Service definition for types'
+define service ZUI_C_TYPES_HSKA09 {
+  expose ZC_TYPES_HSKA09;
+}

@@ -10,9 +10,10 @@ define root view ZI_LANGUAGE_HSKA09
 {
       //ranking
       key listing_id,
+      @EndUserText.label: 'Language Key'
       language_id,
       @EndUserText.label: 'Programming Language Name'
-      name,
+      _Types.name as name,
       @EndUserText.label: 'Popularity in %'
       popularity,
       @EndUserText.label: 'Trend'

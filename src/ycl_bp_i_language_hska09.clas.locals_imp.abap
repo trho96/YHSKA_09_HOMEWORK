@@ -1,60 +1,60 @@
-*"* use this source file for the definition and implementation of
-*"* local helper classes, interface definitions and type
-*"* declarations
-
-CLASS lhc_language DEFINITION INHERITING FROM cl_abap_behavior_handler.
-
-  PRIVATE SECTION.
-
-    TYPES tt_language_update TYPE TABLE FOR UPDATE zi_language_hska09.
-
-    METHODS set_status_completed       FOR MODIFY IMPORTING   keys FOR ACTION language~acceptBlacklisted              RESULT result.
-*    METHODS get_features               FOR FEATURES IMPORTING keys REQUEST    requested_features FOR language    RESULT result.
-
-*    METHODS CalculateLanguageKey FOR DETERMINATION Language~CalculateLanguageKey IMPORTING keys FOR Language.
-ENDCLASS.
-
-CLASS lhc_language IMPLEMENTATION.
-
-
-********************************************************************************
+**"* use this source file for the definition and implementation of
+**"* local helper classes, interface definitions and type
+**"* declarations
 *
-* Implements travel action (in our case: for setting travel overall_status to completed)
+*CLASS lhc_language DEFINITION INHERITING FROM cl_abap_behavior_handler.
 *
-********************************************************************************
-  METHOD set_status_completed.
-
-    " Modify in local mode: BO-related updates that are not relevant for authorization checks
-    MODIFY ENTITIES OF zi_language_hska09 IN LOCAL MODE
-           ENTITY Language
-              UPDATE FROM VALUE #( FOR key IN keys ( listing_id = key-listing_id
-                                                     Blacklisted = 'Y' " Accepted
-                                                     %control-Blacklisted = if_abap_behv=>mk-on ) )
-           FAILED   failed
-           REPORTED reported.
-
-    " Read changed data for action result
-    READ ENTITIES OF zi_language_hska09 IN LOCAL MODE
-         ENTITY Language
-         FROM VALUE #( FOR key IN keys (  listing_id = key-listing_id
-                                          %control = VALUE #(
-                                            language_id       = if_abap_behv=>mk-on
-                                            name     = if_abap_behv=>mk-on
-                                            popularity      = if_abap_behv=>mk-on
-                                            trend        = if_abap_behv=>mk-on
-                                            region     = if_abap_behv=>mk-on
-                                            Blacklisted     = if_abap_behv=>mk-on
-                                            Rating   = if_abap_behv=>mk-on
-                                            Developer  = if_abap_behv=>mk-on
-                                            Publishing_Year     = if_abap_behv=>mk-on
-                                          ) ) )
-         RESULT DATA(lt_language).
-
-    result = VALUE #( FOR language IN lt_language ( listing_id = language-listing_id
-                                                %param    = language
-                                              ) ).
-
-  ENDMETHOD.
+*  PRIVATE SECTION.
+*
+*    TYPES tt_language_update TYPE TABLE FOR UPDATE zi_language_hska09.
+*
+*    METHODS set_status_completed       FOR MODIFY IMPORTING   keys FOR ACTION language~acceptBlacklisted              RESULT result.
+**    METHODS get_features               FOR FEATURES IMPORTING keys REQUEST    requested_features FOR language    RESULT result.
+*
+**    METHODS CalculateLanguageKey FOR DETERMINATION Language~CalculateLanguageKey IMPORTING keys FOR Language.
+*ENDCLASS.
+*
+*CLASS lhc_language IMPLEMENTATION.
+*
+*
+*********************************************************************************
+**
+** Implements travel action (in our case: for setting travel overall_status to completed)
+**
+*********************************************************************************
+*  METHOD set_status_completed.
+*
+*    " Modify in local mode: BO-related updates that are not relevant for authorization checks
+*    MODIFY ENTITIES OF zi_language_hska09 IN LOCAL MODE
+*           ENTITY Language
+*              UPDATE FROM VALUE #( FOR key IN keys ( listing_id = key-listing_id
+*                                                     Blacklisted = 'Y' " Accepted
+*                                                     %control-Blacklisted = if_abap_behv=>mk-on ) )
+*           FAILED   failed
+*           REPORTED reported.
+*
+*    " Read changed data for action result
+*    READ ENTITIES OF zi_language_hska09 IN LOCAL MODE
+*         ENTITY Language
+*         FROM VALUE #( FOR key IN keys (  listing_id = key-listing_id
+*                                          %control = VALUE #(
+*                                            language_id       = if_abap_behv=>mk-on
+*                                            name     = if_abap_behv=>mk-on
+*                                            popularity      = if_abap_behv=>mk-on
+*                                            trend        = if_abap_behv=>mk-on
+*                                            region     = if_abap_behv=>mk-on
+*                                            Blacklisted     = if_abap_behv=>mk-on
+*                                            Rating   = if_abap_behv=>mk-on
+*                                            Developer  = if_abap_behv=>mk-on
+*                                            Publishing_Year     = if_abap_behv=>mk-on
+*                                          ) ) )
+*         RESULT DATA(lt_language).
+*
+*    result = VALUE #( FOR language IN lt_language ( listing_id = language-listing_id
+*                                                %param    = language
+*                                              ) ).
+*
+*  ENDMETHOD.
 
 *********************************************************************************
 **
@@ -99,4 +99,4 @@ CLASS lhc_language IMPLEMENTATION.
 *  ENDMETHOD.
 
 
-ENDCLASS.
+*ENDCLASS.
