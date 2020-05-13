@@ -37,8 +37,8 @@ define root view entity ZC_LANGUAGE_HSKA09
       Rating,
       @UI: {
           lineItem:       [ { position: 60, importance: #HIGH } ] }
-      @UI.dataPoint:{title:'Todo', targetValueElement: 'Todo'}
-      Todo,
+      @UI.dataPoint:{title:'Blacklisted', targetValueElement: 'Blacklisted'}
+      Blacklisted,
       @UI: {
           identification: [ { position: 10, label: 'Developer' } ] }
       Developer,

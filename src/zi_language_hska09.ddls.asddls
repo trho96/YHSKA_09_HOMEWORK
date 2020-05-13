@@ -6,7 +6,6 @@
 define root view ZI_LANGUAGE_HSKA09
   as select from yhska09_language as Language
   /* Associations */
-    association [0..1] to yhska09_todo  as _Todo on $projection.language_id = _Todo.language_id
     association [0..1] to yhska09_types  as _Types on $projection.language_id = _Types.language_id
 {
       //ranking
@@ -21,8 +20,8 @@ define root view ZI_LANGUAGE_HSKA09
       @EndUserText.label: 'Region'
       region,
       
-      @EndUserText.label: 'Todo'
-      _Todo.todo as Todo,
+      @EndUserText.label: 'Blacklisted'
+      _Types.blacklisted as Blacklisted,
       @EndUserText.label: 'Rating'
       _Types.rating as Rating,
       

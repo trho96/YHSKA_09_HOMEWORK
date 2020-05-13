@@ -9,8 +9,7 @@ CLASS ycl_generate_language_data DEFINITION
     DATA:
       cnt        TYPE i,
       lt_lang_db TYPE STANDARD TABLE OF yhska09_language,
-      itab_types TYPE TABLE OF yhska09_types,
-      itab_todo TYPE TABLE OF yhska09_todo.
+      itab_types TYPE TABLE OF yhska09_types.
 
   PRIVATE SECTION.
     DATA:
@@ -24,71 +23,39 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
 
 *  filling internal programming language types table
     itab_types = VALUE #(
-                         ( language_id = '00000000000000000000000000000001' name = 'Python' rating = 0 publishing_year = 1991 developer = 'Guido van Rossum' )
-                         ( language_id = '00000000000000000000000000000002' name = 'Java' rating = 0 publishing_year = 1995 developer = 'Sun Microsystems' )
-                         ( language_id = '00000000000000000000000000000003' name = 'C#' rating = 0 publishing_year = 2000 developer = 'Microsoft' )
-                         ( language_id = '00000000000000000000000000000004' name = 'Javascript' rating = 0 publishing_year = 1995 developer = 'Brendan Eich' )
-                         ( language_id = '00000000000000000000000000000005' name = 'PHP' rating = 0 publishing_year = 1997 developer = 'Rasmus Lerdorf' )
-                         ( language_id = '00000000000000000000000000000006' name = 'C/C++' rating = 0 publishing_year = 1972 developer = 'Dennis Ritchie/Bjarne Stroustrup (1985)' )
-                         ( language_id = '00000000000000000000000000000007' name = 'R' rating = 0 publishing_year = 1993 developer = 'Ross Ihaka, Robert Gentleman' )
-                         ( language_id = '00000000000000000000000000000008' name = 'Objective-C' rating = 0 publishing_year = 1983 developer = 'Brad Cox' )
-                         ( language_id = '00000000000000000000000000000009' name = 'TypeScript' rating = 0 publishing_year = 2012 developer = 'Microsoft' )
-                         ( language_id = '00000000000000000000000000000010' name = 'VBA' rating = 0 publishing_year = 1996 developer = 'Microsoft' )
-                         ( language_id = '00000000000000000000000000000011' name = 'Swift' rating = 0  publishing_year = 2014 developer = 'Apple' )
-                         ( language_id = '00000000000000000000000000000012' name = 'Matlab' rating = 0 publishing_year = 1977 developer = 'Cleve Moler' )
-                         ( language_id = '00000000000000000000000000000013' name = 'Go' rating = 0 publishing_year = 2009 developer = 'Google Inc., Robert Griesemer, Rob Pike, Ken Thompson' )
-                         ( language_id = '00000000000000000000000000000014' name = 'Kotlin' rating = 0  publishing_year = 2011 developer = 'JetBrains' )
-                         ( language_id = '00000000000000000000000000000015' name = 'Rust' rating = 0 publishing_year = 2010 developer = 'Graydon Hoare, Mozilla' )
-                         ( language_id = '00000000000000000000000000000016' name = 'Abap' rating = 0 publishing_year = 1983 developer = 'SAP SE' )
-                         ( language_id = '00000000000000000000000000000017' name = 'Delphi' rating = 0  publishing_year = 1995 developer = 'Borland' )
-                         ( language_id = '00000000000000000000000000000018' name = 'Ruby' rating = 0 publishing_year = 1995 developer = 'Yukihiro Matsumoto' )
-                         ( language_id = '00000000000000000000000000000019' name = 'Visual Basic' rating = 0 publishing_year = 2012 developer = 'Microsoft' )
-                         ( language_id = '00000000000000000000000000000020' name = 'Scala' rating = 0 publishing_year = 2001 developer = 'Martin Odersky' )
-                         ( language_id = '00000000000000000000000000000021' name = 'Haskell' rating = 0 publishing_year = 1990 developer = 'Simon Peyton Jones, Paul Hudak, Philip Wadler' )
-                         ( language_id = '00000000000000000000000000000022' name = 'Lua' rating = 0 publishing_year = 1993 developer = 'Roberto Ierusalimschy' )
-                         ( language_id = '00000000000000000000000000000023' name = 'Dart' rating = 0 publishing_year = 2011 developer = 'Google Inc., The Dart Team' )
-                         ( language_id = '00000000000000000000000000000024' name = 'Julia' rating = 0 publishing_year = 2012 developer = 'Jeff Bezanson, Stefan Karpinski, Viral B. Shah, Alan Edelman' )
-                         ( language_id = '00000000000000000000000000000025' name = 'Cobol' rating = 0 publishing_year = 1960 developer = 'Grace Hopper, CODASYL' )
-                         ( language_id = '00000000000000000000000000000026' name = 'Groovy' rating = 0 publishing_year = 2003 developer = 'James Strachan' )
-                         ( language_id = '00000000000000000000000000000027' name = 'Perl' rating = 0 publishing_year = 1987 developer = 'Larry Wall' )
+                         ( language_id = '00000000000000000000000000000001' name = 'Python' rating = 0 publishing_year = 1991 developer = 'Guido van Rossum' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000002' name = 'Java' rating = 0 publishing_year = 1995 developer = 'Sun Microsystems' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000003' name = 'C#' rating = 0 publishing_year = 2000 developer = 'Microsoft' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000004' name = 'Javascript' rating = 0 publishing_year = 1995 developer = 'Brendan Eich' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000005' name = 'PHP' rating = 0 publishing_year = 1997 developer = 'Rasmus Lerdorf' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000006' name = 'C/C++' rating = 0 publishing_year = 1972 developer = 'Dennis Ritchie/Bjarne Stroustrup (1985)' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000007' name = 'R' rating = 0 publishing_year = 1993 developer = 'Ross Ihaka, Robert Gentleman' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000008' name = 'Objective-C' rating = 0 publishing_year = 1983 developer = 'Brad Cox' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000009' name = 'TypeScript' rating = 0 publishing_year = 2012 developer = 'Microsoft' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000010' name = 'VBA' rating = 0 publishing_year = 1996 developer = 'Microsoft' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000011' name = 'Swift' rating = 0  publishing_year = 2014 developer = 'Apple' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000012' name = 'Matlab' rating = 0 publishing_year = 1977 developer = 'Cleve Moler' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000013' name = 'Go' rating = 0 publishing_year = 2009 developer = 'Google Inc., Robert Griesemer, Rob Pike, Ken Thompson' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000014' name = 'Kotlin' rating = 0  publishing_year = 2011 developer = 'JetBrains' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000015' name = 'Rust' rating = 0 publishing_year = 2010 developer = 'Graydon Hoare, Mozilla' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000016' name = 'Abap' rating = 0 publishing_year = 1983 developer = 'SAP SE' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000017' name = 'Delphi' rating = 0  publishing_year = 1995 developer = 'Borland' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000018' name = 'Ruby' rating = 0 publishing_year = 1995 developer = 'Yukihiro Matsumoto' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000019' name = 'Visual Basic' rating = 0 publishing_year = 2012 developer = 'Microsoft' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000020' name = 'Scala' rating = 0 publishing_year = 2001 developer = 'Martin Odersky' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000021' name = 'Haskell' rating = 0 publishing_year = 1990 developer = 'Simon Peyton Jones, Paul Hudak, Philip Wadler' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000022' name = 'Lua' rating = 0 publishing_year = 1993 developer = 'Roberto Ierusalimschy' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000023' name = 'Dart' rating = 0 publishing_year = 2011 developer = 'Google Inc., The Dart Team' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000024' name = 'Julia' rating = 0 publishing_year = 2012 developer = 'Jeff Bezanson, Stefan Karpinski, Viral B. Shah, Alan Edelman' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000025' name = 'Cobol' rating = 0 publishing_year = 1960 developer = 'Grace Hopper, CODASYL' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000026' name = 'Groovy' rating = 0 publishing_year = 2003 developer = 'James Strachan' blacklisted = 'N' )
+                         ( language_id = '00000000000000000000000000000027' name = 'Perl' rating = 0 publishing_year = 1987 developer = 'Larry Wall' blacklisted = 'N' )
      ).
 
     DELETE FROM yhska09_types.
     INSERT yhska09_types FROM TABLE @itab_types.
 
-*  filling internal todo table
-    itab_todo = VALUE #(
-                         ( language_id = '00000000000000000000000000000001' name = 'Python' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000002' name = 'Java' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000003' name = 'C#' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000004' name = 'Javascript' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000005' name = 'PHP' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000006' name = 'C/C++' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000007' name = 'R' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000008' name = 'Objective-C' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000009' name = 'TypeScript' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000010' name = 'VBA' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000011' name = 'Swift' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000012' name = 'Matlab' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000013' name = 'Go' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000014' name = 'Kotlin' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000015' name = 'Rust' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000016' name = 'Abap' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000017' name = 'Delphi' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000018' name = 'Ruby' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000019' name = 'Visual Basic' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000020' name = 'Scala' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000021' name = 'Haskell' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000022' name = 'Lua' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000023' name = 'Dart' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000024' name = 'Julia' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000025' name = 'Cobol' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000026' name = 'Groovy' todo = 'N' )
-                         ( language_id = '00000000000000000000000000000027' name = 'Perl' todo = 'N' )
-     ).
 
-    DELETE FROM yhska09_todo.
-    INSERT yhska09_todo FROM TABLE @itab_todo.
 
     DATA(lv_url) = |http://pypl.github.io/PYPL.html|.
     DATA(lv_http_client) = NEW lcl_http_client(  ).
