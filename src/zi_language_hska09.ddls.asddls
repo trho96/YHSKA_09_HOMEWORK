@@ -4,7 +4,7 @@
 @AccessControl.authorizationCheck: #CHECK
 @EndUserText.label: 'Data model for languages'
 define root view ZI_LANGUAGE_HSKA09
-  as select from yhska09_language as ranking
+  as select from yhska09_language as Language
   /* Associations */
     association [0..1] to yhska09_todo  as _Todo on $projection.language_id = _Todo.language_id
     association [0..1] to yhska09_types  as _Types on $projection.language_id = _Types.language_id
