@@ -36,7 +36,8 @@ define root view entity ZC_LANGUAGE_HSKA09
       @UI.dataPoint:{title:'Rating',visualization:#RATING,targetValue:5}
       Rating,
       @UI: {
-          lineItem:       [ { position: 60, importance: #HIGH } ] }
+          lineItem:       [ { position: 60, importance: #HIGH },
+           { type: #FOR_ACTION, dataAction: 'acceptBlacklisted', label: 'Set Blacklisted' } ] }
       @UI.dataPoint:{title:'Blacklisted', targetValueElement: 'Blacklisted'}
       Blacklisted,
       @UI: {

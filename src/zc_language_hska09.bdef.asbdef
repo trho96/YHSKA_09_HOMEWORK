@@ -1,0 +1,7 @@
+projection;
+
+define behavior for ZC_LANGUAGE_HSKA09 alias LanguageProcessor
+{
+
+use action acceptBlacklisted;
+}

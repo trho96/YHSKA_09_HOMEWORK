@@ -30,5 +30,4 @@ define root view ZI_LANGUAGE_HSKA09
       
       @EndUserText.label: 'Publishing Year'
       _Types.publishing_year as Publishing_Year
-  
 }

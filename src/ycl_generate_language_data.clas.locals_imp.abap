@@ -86,6 +86,7 @@ CLASS lcl_html_parser IMPLEMENTATION.
           IF abap_true = matcherline->match( ).
             LOOP AT im_types_db into lc_language_id WHERE name = matcherline->get_submatch( 2 ).
             ENDLOOP.
+
             DATA(lo_lang_data) = VALUE yhska09_language( listing_id = ch_cnt
                                                          language_id = lc_language_id-language_id
                                                          name = matcherline->get_submatch( 2 )

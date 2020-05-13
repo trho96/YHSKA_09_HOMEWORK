@@ -1,0 +1,17 @@
+managed implementation in class ycl_bp_i_language_hska09 unique;
+
+define behavior for ZI_LANGUAGE_HSKA09 alias Language
+persistent table YHSKA09_LANGUAGE
+lock master
+//authorization master ( instance )
+//etag master <field_name>
+{
+  //create;
+  //update;
+  //delete;
+  // instance action and dynamic action control
+action ( features : instance ) acceptBlacklisted result [1] $self;
+// determination
+determination CalculateLanguageKey on modify
+{ create; }
+}
