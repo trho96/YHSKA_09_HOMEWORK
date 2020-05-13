@@ -9,7 +9,10 @@ CLASS lcl_http_client DEFINITION
     METHODS:
       request_language_data
         IMPORTING im_url         TYPE string
-        RETURNING VALUE(lt_ctab) TYPE string_table.
+        RETURNING VALUE(lt_ctab) TYPE string_table
+        RAISING
+          cx_http_dest_provider_error
+          cx_web_http_client_error.
   PROTECTED SECTION.
   PRIVATE SECTION.
     DATA:
@@ -33,18 +36,21 @@ CLASS lcl_html_parser DEFINITION
 FINAL
     CREATE PUBLIC.
   PUBLIC SECTION.
-    TYPES: ty_hska_language TYPE STANDARD TABLE OF yhska09_language.
+    TYPES: ty_hska_language TYPE STANDARD TABLE OF yhska09_language,
+           ty_hska_types TYPE STANDARD TABLE OF yhska09_types.
     METHODS:
       constructor
         IMPORTING im_html TYPE string_table,
       get_data
         IMPORTING im_region  TYPE string
+                  im_types_db TYPE ty_hska_types
         CHANGING  ch_cnt     TYPE i
                   ch_lang_db TYPE ty_hska_language.
   PROTECTED SECTION.
   PRIVATE SECTION.
     DATA:
-      ls_html TYPE string_table.
+      ls_html TYPE string_table,
+      lc_language_id TYPE yhska09_types.
 ENDCLASS.
 
 CLASS lcl_html_parser IMPLEMENTATION.
@@ -75,9 +81,13 @@ CLASS lcl_html_parser IMPLEMENTATION.
           DATA(matcherline) = cl_abap_matcher=>create( pattern     = '_+([0-9]+)_+([^_]+)_+([^_]+)_+([^_]+)_+.*'
                                                text = line
                                                ignore_case = abap_true ).
+
+
           IF abap_true = matcherline->match( ).
-            DATA(lo_lang_data) = VALUE yhska09_language( language_id = ch_cnt
-                                                         rank = matcherline->get_submatch( 1 )
+            LOOP AT im_types_db into lc_language_id WHERE name = matcherline->get_submatch( 2 ).
+            ENDLOOP.
+            DATA(lo_lang_data) = VALUE yhska09_language( listing_id = ch_cnt
+                                                         language_id = lc_language_id-language_id
                                                          name = matcherline->get_submatch( 2 )
                                                          popularity = matcherline->get_submatch( 3 )
                                                          trend = matcherline->get_submatch( 4 )
