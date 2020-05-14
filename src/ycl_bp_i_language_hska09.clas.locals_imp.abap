@@ -6,7 +6,7 @@ CLASS lhc_language DEFINITION INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
     METHODS validateLanguage          FOR VALIDATION language~validatelanguage IMPORTING keys FOR language.
     METHODS validatePopularity         FOR VALIDATION language~validatePopularity IMPORTING keys FOR language.
-    "METHODS validateTrend         FOR VALIDATION language~validateTrend IMPORTING keys FOR language.
+    METHODS validateTrend         FOR VALIDATION language~validateTrend IMPORTING keys FOR language.
 
 ENDCLASS.
 
@@ -57,7 +57,7 @@ CLASS lhc_language IMPLEMENTATION.
 
     " Raise msg for non existing customer id
     LOOP AT lt_language INTO DATA(ls_language).
-      IF ls_language-popularity gt 100 or ls_language-popularity lt 0.
+      IF ls_language-popularity GT 100 OR ls_language-popularity LT 0.
         APPEND VALUE #(  listing_id = ls_language-listing_id ) TO failed.
         APPEND VALUE #(  listing_id = ls_language-listing_id
                          %msg      = new_message( id       = 'Id '
@@ -70,27 +70,27 @@ CLASS lhc_language IMPLEMENTATION.
     ENDLOOP.
 
   ENDMETHOD.
-*
-*  METHOD validateTrend.
-*
-*    READ ENTITY zi_language_hska09\\Language FROM VALUE #(
-*        FOR <root_key> IN keys ( %key     = <root_key>
-*                                 %control = VALUE #( trend = if_abap_behv=>mk-on ) ) )
-*        RESULT DATA(lt_language).
-*
-*    " Raise msg for non existing customer id
-*    LOOP AT lt_language INTO DATA(ls_language).
-*      IF ls_language-trend gt 100 and ls_language-trend lt -100.
-*        APPEND VALUE #(  listing_id = ls_language-listing_id ) TO failed.
-*        APPEND VALUE #(  listing_id = ls_language-listing_id
-*                         %msg      = new_message( id       = 'Id '
-*                                                  number   = '004'
-*                                                  v1       = ': trend value should be between -100 and 100'
-*                                                  severity = if_abap_behv_message=>severity-error )
-*                         %element-trend = if_abap_behv=>mk-on ) TO reported.
-*      ENDIF.
-*
-*    ENDLOOP.
-*
-*  ENDMETHOD.
+
+  METHOD validateTrend.
+
+    READ ENTITY zi_language_hska09\\Language FROM VALUE #(
+        FOR <root_key> IN keys ( %key     = <root_key>
+                                 %control = VALUE #( trend = if_abap_behv=>mk-on ) ) )
+        RESULT DATA(lt_language).
+
+    " Raise msg for non existing customer id
+    LOOP AT lt_language INTO DATA(ls_language).
+      IF ls_language-trend > 100 OR ls_language-trend < -100.
+        APPEND VALUE #(  listing_id = ls_language-listing_id ) TO failed.
+        APPEND VALUE #(  listing_id = ls_language-listing_id
+                         %msg      = new_message( id       = 'Id '
+                                                  number   = '004'
+                                                  v1       = ': trend value should be between -100 and 100'
+                                                  severity = if_abap_behv_message=>severity-error )
+                         %element-trend = if_abap_behv=>mk-on ) TO reported.
+      ENDIF.
+
+    ENDLOOP.
+
+  ENDMETHOD.
 ENDCLASS.
