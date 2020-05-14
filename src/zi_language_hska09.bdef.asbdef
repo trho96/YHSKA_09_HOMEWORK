@@ -1,18 +1,17 @@
 managed implementation in class ycl_bp_i_language_hska09 unique;
 
 define behavior for ZI_LANGUAGE_HSKA09 alias Language
-persistent table YHSKA09_LANGUAGE
+persistent table yhska09_language
 lock master
 //authorization master ( instance )
 {
+field ( readonly, numbering : managed ) listing_id;
 field ( mandatory ) language_id, popularity, trend, region;
-field ( readonly ) listing_id, name, Publishing_Year, Blacklisted, rating, Developer ;
+field ( readonly ) name, Publishing_Year, Blacklisted, rating, Developer ;
 create;
 update;
 delete;
-  // instance action and dynamic action control
-//action ( features : instance ) acceptBlacklisted result [1] $self;
-// determination
-//determination CalculateLanguageKey on modify
-//{ create; }
+
+// validations
+validation validateLanguage on save { field language_id; }
 }
