@@ -5,6 +5,7 @@
 
 @Search.searchable: true
 
+@Metadata.allowExtensions: true
 define root view entity ZC_LANGUAGE_HSKA09
   as projection on ZI_LANGUAGE_HSKA09
 {

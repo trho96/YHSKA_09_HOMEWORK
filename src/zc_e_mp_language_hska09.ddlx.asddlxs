@@ -1,0 +1,29 @@
+@Metadata.layer: #CORE
+
+
+@UI.selectionVariant: [{ qualifier: 'RegionAll',
+                          text: 'All Regions',
+                          filter: 'Region EQ "ALL"'},
+                        { qualifier: 'RegionDE',
+                          text: 'DE',
+                          filter: 'Region EQ "DE"' },
+                          { qualifier: 'RegionUS',
+                          text: 'US',
+                          filter: 'Region EQ "US"' },
+                          { qualifier: 'RegionIN',
+                          text: 'IN',
+                          filter: 'Region EQ "IN"' },
+                          { qualifier: 'RegionGB',
+                          text: 'GB',
+                          filter: 'Region EQ "GB"' },
+                          { qualifier: 'RegionFR',
+                          text: 'FR',
+                          filter: 'Region EQ "FR"' }   ]
+annotate view ZC_LANGUAGE_HSKA09 with
+{
+  @UI: { 
+  textArrangement: #TEXT_FIRST
+  }
+  region;
+
+}
