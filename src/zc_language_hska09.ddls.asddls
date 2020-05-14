@@ -12,7 +12,18 @@ define root view entity ZC_LANGUAGE_HSKA09
                     purpose:         #STANDARD,
                     type:            #IDENTIFICATION_REFERENCE,
                     label:           'Details',
-                    position:        10 }
+                    position:        10 },
+                    { id: 'idHeader' ,
+                    type: #DATAPOINT_REFERENCE ,
+                     position: 10,
+                     label: 'Header' ,
+                     purpose: #HEADER ,
+                     targetQualifier: 'Rating' },
+                     { id: 'idHeader' ,
+                    type: #DATAPOINT_REFERENCE ,
+                     position: 20,
+                     purpose: #HEADER ,
+                     targetQualifier: 'popularity' }
       ]
       @UI.hidden: true
   key listing_id,

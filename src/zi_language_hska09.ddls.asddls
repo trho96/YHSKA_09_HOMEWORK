@@ -14,7 +14,6 @@ define root view ZI_LANGUAGE_HSKA09
       language_id,
       @EndUserText.label: 'Programming Language Name'
       _Types.name as name,
-      @EndUserText.label: 'Popularity in %'
       popularity,
       @EndUserText.label: 'Trend'
       trend,
