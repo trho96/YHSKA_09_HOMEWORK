@@ -16,5 +16,12 @@ define root view ZI_TYPES_HSKA09 as select from yhska09_types as LanguageTypes{
       developer,
       
       @EndUserText.label: 'Publishing Year'
-      publishing_year
+      publishing_year,
+      
+      case blacklisted 
+        when ' ' then 2
+        when 'N' then 3
+        when 'Y' then 1
+       else 0
+       end as Criticality
 }

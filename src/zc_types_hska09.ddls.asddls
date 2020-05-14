@@ -29,7 +29,7 @@ define root view entity ZC_TYPES_HSKA09
       @UI.dataPoint:{title:'Rating',visualization:#RATING,targetValue:5}
       rating,
       @UI: {
-          lineItem:       [ { position: 60, importance: #HIGH },
+          lineItem:       [ { position: 60, importance: #HIGH, criticality: 'Criticality' },
            { type: #FOR_ACTION, dataAction: 'acceptBlacklisted', label: 'Set Blacklisted' } ],
            identification: [ { position: 50, label: 'BlackListed' } ] }
       @UI.dataPoint:{title:'Blacklisted', targetValueElement: 'Blacklisted'}
@@ -39,5 +39,6 @@ define root view entity ZC_TYPES_HSKA09
       developer,
       @UI: {
           identification: [ { position: 20, label: 'Publishing Year' } ] }
-      publishing_year     
+      publishing_year,
+      Criticality
 }
