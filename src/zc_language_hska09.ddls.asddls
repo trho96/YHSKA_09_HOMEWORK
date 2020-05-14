@@ -53,7 +53,7 @@ define root view entity ZC_LANGUAGE_HSKA09
       @UI.dataPoint:{title:'Rating',visualization:#RATING,targetValue:5}
       Rating,
       @UI: {
-          lineItem:       [ { position: 60, importance: #HIGH },
+          lineItem:       [ { position: 60, importance: #HIGH,criticality: 'Criticality' },
            { type: #FOR_ACTION, dataAction: 'acceptBlacklisted', label: 'Set Blacklisted' } ],
            identification: [ { position: 60, label: 'BlackListed' } ] }
       @UI.dataPoint:{title:'Blacklisted', targetValueElement: 'Blacklisted'}
@@ -66,6 +66,7 @@ define root view entity ZC_LANGUAGE_HSKA09
       Publishing_Year,
        @UI: {lineItem:[ { position: 90, importance: #HIGH }],
        identification: [ { position: 90, label: 'Language ID' } ]}
-       language_id
+       language_id,
+       Criticality
 
 }
