@@ -15,19 +15,17 @@ ENDCLASS.
 CLASS lcl_handler DEFINITION FINAL INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
     METHODS modify FOR BEHAVIOR IMPORTING
-                                  roots_to_create FOR CREATE LanguageTypes
-                                  roots_to_update FOR UPDATE LanguageTypes
-                                  roots_to_delete FOR DELETE LanguageTypes.
+                                  roots_to_create FOR CREATE languagetypes
+                                  roots_to_update FOR UPDATE languagetypes
+                                  roots_to_delete FOR DELETE languagetypes.
 
     METHODS read FOR BEHAVIOR
-      IMPORTING it_lang_id FOR READ LanguageTypes RESULT et_type.
+      IMPORTING it_lang_id FOR READ languagetypes RESULT et_type.
 
     METHODS lock FOR BEHAVIOR
-      IMPORTING it_lang_id FOR LOCK LanguageTypes.
+      IMPORTING it_lang_id FOR LOCK languagetypes.
 
-    METHODS set_status_completed       FOR MODIFY IMPORTING   keys FOR ACTION LanguageTypes~acceptBlacklisted.
-*    METHODS get_features               FOR FEATURES IMPORTING keys REQUEST    requested_features FOR LanguageTypes    RESULT result.
-*    METHODS calculate_language_id FOR DETERMINATION LanguageTypes~CalculateLanguageKey IMPORTING keys FOR LanguageTypes.
+    METHODS set_status_completed       FOR MODIFY IMPORTING   keys FOR ACTION languagetypes~acceptblacklisted.
 ENDCLASS.
 
 CLASS lcl_handler IMPLEMENTATION.
@@ -123,84 +121,27 @@ CLASS lcl_handler IMPLEMENTATION.
   METHOD lock.
     "provide the appropriate lock handling if required
   ENDMETHOD.
-*  METHOD get_features.
-*    LOOP AT keys INTO DATA(ls_features).
-*    ENDLOOP.
-*    "%control-<fieldname> specifies which fields are read from the entities
-*
-*    READ ENTITY zi_types_hska09 FROM VALUE #( FOR keyval IN keys
-*                                                      (  %key                    = keyval-%key
-*                                                        " %control-language_id      = if_abap_behv=>mk-on
-*                                                         %control-blacklisted = if_abap_behv=>mk-on
-*                                                        ) )
-*                                RESULT DATA(lt_type_result).
-*
-*    result = VALUE #( FOR ls_type IN lt_type_result
-*                       ( %key                           = ls_type-%key
-*                         %features-%action-acceptBlacklisted = COND #( WHEN ls_type-blacklisted = 'Y'
-*                                                                    THEN if_abap_behv=>fc-o-disabled ELSE if_abap_behv=>fc-o-enabled   )
-*                      ) ).
-*
-*  ENDMETHOD.
 
   METHOD set_status_completed.
-  LOOP AT keys INTO DATA(ls_update).
-        IF ls_update-language_id IS INITIAL.
-          ls_update-language_id = mapped-languagetypes[ %cid = ls_update-%cid_ref ]-language_id.
-        ENDIF.
+    LOOP AT keys INTO DATA(ls_update).
+      IF ls_update-language_id IS INITIAL.
+        ls_update-language_id = mapped-languagetypes[ %cid = ls_update-%cid_ref ]-language_id.
+      ENDIF.
 
-        READ TABLE lcl_buffer=>mt_buffer WITH KEY language_id = ls_update-language_id ASSIGNING FIELD-SYMBOL(<ls_buffer>).
-        IF sy-subrc <> 0.
+      READ TABLE lcl_buffer=>mt_buffer WITH KEY language_id = ls_update-language_id ASSIGNING FIELD-SYMBOL(<ls_buffer>).
+      IF sy-subrc <> 0.
 
-          SELECT SINGLE * FROM yhska09_types WHERE language_id = @ls_update-language_id INTO @DATA(ls_db).
-          INSERT VALUE #( flag = 'U' data = ls_db ) INTO TABLE lcl_buffer=>mt_buffer ASSIGNING <ls_buffer>.
-        ENDIF.
-        IF <ls_buffer>-blacklisted = 'N'.
-          <ls_buffer>-blacklisted = 'Y'.
-        ELSE.
-          <ls_buffer>-blacklisted = 'N'.
-        ENDIF.
-      ENDLOOP.
-    " Modify in local mode: BO-related updates that are not relevant for authorization checks
-*    MODIFY ENTITIES OF zi_types_hska09 IN LOCAL MODE
-*           ENTITY LanguageTypes
-*              UPDATE FROM VALUE #( FOR key IN keys ( language_id = key-language_id
-*                                                     blacklisted = 'Y' " Accepted
-*                                                     %control-blacklisted = if_abap_behv=>mk-on ) )
-*           FAILED   failed
-*           REPORTED reported.
-*
-*    " Read changed data for action result
-*    READ ENTITIES OF zi_types_hska09 IN LOCAL MODE
-*         ENTITY LanguageTypes
-*         FROM VALUE #( FOR key IN keys (  language_id = key-language_id
-*                                          %control = VALUE #(
-*                                            blacklisted       = if_abap_behv=>mk-on
-*                                            developer     = if_abap_behv=>mk-on
-*                                            name      = if_abap_behv=>mk-on
-*                                            publishing_year        = if_abap_behv=>mk-on
-*                                            rating     = if_abap_behv=>mk-on
-*                                          ) ) )
-*         RESULT DATA(lt_type).
-*
-*    result = VALUE #( FOR type IN lt_type ( language_id = type-language_id
-*                                                %param    = type
-*                                              ) ).
+        SELECT SINGLE * FROM yhska09_types WHERE language_id = @ls_update-language_id INTO @DATA(ls_db).
+        INSERT VALUE #( flag = 'U' data = ls_db ) INTO TABLE lcl_buffer=>mt_buffer ASSIGNING <ls_buffer>.
+      ENDIF.
+      IF <ls_buffer>-blacklisted = 'N'.
+        <ls_buffer>-blacklisted = 'Y'.
+      ELSE.
+        <ls_buffer>-blacklisted = 'N'.
+      ENDIF.
+    ENDLOOP.
+
   ENDMETHOD.
-
-*  METHOD calculate_language_id.
-*    SELECT FROM yhska09_types
-*        FIELDS MAX( language_id ) INTO @DATA(lv_max_language_id).
-*
-*    LOOP AT keys INTO DATA(ls_key).
-*      lv_max_language_id = lv_max_language_id + 1.
-*      MODIFY ENTITIES OF zi_types_hska09  IN LOCAL MODE
-*        ENTITY LanguageTypes
-*          UPDATE SET FIELDS WITH VALUE #( ( language_id = lv_max_language_id ) )
-*          REPORTED DATA(ls_reported).
-*      APPEND LINES OF ls_reported-languagetypes TO reported-languagetypes.
-*    ENDLOOP.
-*  ENDMETHOD.
 
 ENDCLASS.
 
