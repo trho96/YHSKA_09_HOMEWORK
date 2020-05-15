@@ -82,7 +82,6 @@ define root view entity ZC_LANGUAGE_HSKA09
       Publishing_Year,
       
       @UI: {
-          lineItem:[ { position: 90, importance: #HIGH }],
           identification: [ { position: 90, label: 'Language ID' } ]
       }
       @Consumption.valueHelpDefinition: [ { entity : {name: 'ZI_TYPES_HSKA09', element: 'language_id'  } } ]

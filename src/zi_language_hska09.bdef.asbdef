@@ -18,5 +18,5 @@ lock master
   validation validateLanguage on save { field language_id; }
   validation validatePopularity on save { field popularity; }
   validation validateTrend on save { field trend; }
-
+  validation validateRegion on save { field region; }
 }

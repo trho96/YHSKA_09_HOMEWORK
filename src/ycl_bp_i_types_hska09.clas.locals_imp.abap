@@ -4,7 +4,7 @@ CLASS lcl_buffer DEFINITION.
 
     TYPES: BEGIN OF ty_buffer.
              INCLUDE TYPE yhska09_types AS data.
-             TYPES:   flag TYPE c LENGTH 1,
+    TYPES:   flag TYPE c LENGTH 1,
            END OF ty_buffer,
 
            tt_lang TYPE SORTED TABLE OF ty_buffer WITH UNIQUE KEY language_id.
@@ -185,7 +185,7 @@ ENDCLASS.
 CLASS lcl_saver DEFINITION INHERITING FROM cl_abap_behavior_saver.
   PROTECTED SECTION.
     METHODS finalize          REDEFINITION.
-    METHODS check_before_save REDEFINITION.
+    METHODS check_before_save REDEFINITION .
     METHODS save              REDEFINITION.
 ENDCLASS.
 

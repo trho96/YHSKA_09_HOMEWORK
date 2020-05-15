@@ -5,7 +5,7 @@
    <DDLS>
     <DDLNAME>ZI_REGION_HSKA09</DDLNAME>
     <DDLANGUAGE>E</DDLANGUAGE>
-    <DDTEXT>Data model for region</DDTEXT>
+    <DDTEXT>Data definition for regions</DDTEXT>
     <SOURCE_TYPE>V</SOURCE_TYPE>
    </DDLS>
   </asx:values>

@@ -1,9 +1,7 @@
 CLASS lcl_http_client DEFINITION
-
-  FINAL
-  CREATE PUBLIC.
+    FINAL
+    CREATE PUBLIC.
   PUBLIC SECTION.
-
     METHODS:
       request_language_data
         IMPORTING im_url         TYPE string
@@ -11,21 +9,14 @@ CLASS lcl_http_client DEFINITION
         RAISING
                   cx_http_dest_provider_error
                   cx_web_http_client_error.
-
   PROTECTED SECTION.
   PRIVATE SECTION.
-
     DATA:
       ls_html TYPE string.
-
 ENDCLASS.
 
-
 CLASS lcl_http_client IMPLEMENTATION.
-
   METHOD request_language_data.
-
-*   Get the data in html format from an external website with a http request
     DATA(lo_destination) = cl_http_destination_provider=>create_by_url( im_url ).
     DATA(lo_http) = cl_web_http_client_manager=>create_by_http_destination( lo_destination ).
     DATA(lo_request) = lo_http->get_http_request( ).
@@ -37,15 +28,12 @@ CLASS lcl_http_client IMPLEMENTATION.
 
 ENDCLASS.
 
-
 CLASS lcl_html_parser DEFINITION
-  FINAL
-  CREATE PUBLIC.
+FINAL
+    CREATE PUBLIC.
   PUBLIC SECTION.
-
     TYPES: ty_hska_language TYPE STANDARD TABLE OF yhska09_language,
            ty_hska_types    TYPE STANDARD TABLE OF yhska09_types.
-
     METHODS:
       constructor
         IMPORTING im_html TYPE string_table,
@@ -54,32 +42,23 @@ CLASS lcl_html_parser DEFINITION
                   im_types_db TYPE ty_hska_types
         CHANGING  ch_cnt      TYPE i
                   ch_lang_db  TYPE ty_hska_language.
-
   PROTECTED SECTION.
   PRIVATE SECTION.
-
     DATA:
       ls_html        TYPE string_table,
       lc_language_id TYPE yhska09_types.
-
 ENDCLASS.
-
 
 CLASS lcl_html_parser IMPLEMENTATION.
 
-* Constructor with initialized html string response from http request
   METHOD constructor.
-
     ls_html = im_html.
-
   ENDMETHOD.
 
 * Local function to get data of ranking of programming languages from an external website
 * Parse the html site to extract the relevant data
   METHOD get_data.
-
     LOOP AT ls_html INTO DATA(data_string) WHERE table_line CS 'table = "<!-- begin section' && ` ` && im_region && '-->\'.
-
       DATA(matcher) = cl_abap_matcher=>create( pattern     = '<([!A-Za-z][A-Za-z0-9]*)([^>]*)>|</([A-Za-z][A-Za-z0-9]*)>'
                                                text = data_string
                                                ignore_case = abap_true ).
@@ -88,11 +67,15 @@ CLASS lcl_html_parser IMPLEMENTATION.
 
         DATA(result) = substring_from( val = matcher->text sub = '_1' ).
         REPLACE ALL OCCURRENCES OF REGEX ' %' IN result WITH ''.
+
+
         REPLACE ALL OCCURRENCES OF REGEX '\n' IN result WITH ``.
+
         SPLIT result AT '\' INTO TABLE DATA(itab).
 
 *       Get language name, popularity, trend and region from the parsed data
         LOOP AT itab INTO DATA(line).
+
           DATA(matcherline) = cl_abap_matcher=>create( pattern     = '_+([0-9]+)_+([^_]+)_+([^_]+)_+([^_]+)_+.*'
                                                text = line
                                                ignore_case = abap_true ).
@@ -108,10 +91,8 @@ CLASS lcl_html_parser IMPLEMENTATION.
                                                          popularity = matcherline->get_submatch( 3 )
                                                          trend = matcherline->get_submatch( 4 )
                                                          region = im_region ).
-
             APPEND lo_lang_data TO ch_lang_db.
             ch_cnt = ch_cnt + 1.
-
           ENDIF.
 
         ENDLOOP.
@@ -121,7 +102,5 @@ CLASS lcl_html_parser IMPLEMENTATION.
       ENDIF.
 
     ENDLOOP.
-
   ENDMETHOD.
-
 ENDCLASS.

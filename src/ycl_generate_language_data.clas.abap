@@ -6,20 +6,18 @@ CLASS ycl_generate_language_data DEFINITION
   PUBLIC SECTION.
     INTERFACES if_oo_adt_classrun.
   PROTECTED SECTION.
+    DATA:
+      cnt        TYPE i,
+      lt_lang_db TYPE STANDARD TABLE OF yhska09_language,
+      itab_types TYPE TABLE OF yhska09_types,
+      itab_regions TYPE TABLE OF yhska09_regions.
 
   PRIVATE SECTION.
     DATA:
-      lv_html_table TYPE string_table,
-      cnt          TYPE i,
-      itab_lang   TYPE STANDARD TABLE OF yhska09_language,
-      itab_types   TYPE TABLE OF yhska09_types,
-      itab_regions TYPE TABLE OF yhska09_regions.
-
+      lv_html_table TYPE string_table.
 ENDCLASS.
 
-
 CLASS ycl_generate_language_data IMPLEMENTATION.
-
   METHOD if_oo_adt_classrun~main.
 
 *   Filling internal table of programming language types
@@ -57,16 +55,14 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
     DELETE FROM yhska09_types.
     INSERT yhska09_types FROM TABLE @itab_types.
 
-*   Filling internal table with regions
-    itab_regions = VALUE #(
-                           ( region_key = '00000000000000000000000000000001' region =  'ALL')
-                           ( region_key = '00000000000000000000000000000002' region =  'DE')
-                           ( region_key = '00000000000000000000000000000003' region =  'US')
-                           ( region_key = '00000000000000000000000000000004' region =  'IN')
-                           ( region_key = '00000000000000000000000000000005' region =  'GB')
-                           ( region_key = '00000000000000000000000000000006' region =  'FR')
+     itab_regions = VALUE #(
+                         ( region_key = '00000000000000000000000000000001' region =  'ALL')
+                         ( region_key = '00000000000000000000000000000002' region =  'DE')
+                         ( region_key = '00000000000000000000000000000003' region =  'US')
+                         ( region_key = '00000000000000000000000000000004' region =  'IN')
+                         ( region_key = '00000000000000000000000000000005' region =  'GB')
+                         ( region_key = '00000000000000000000000000000006' region =  'FR')
      ).
-
     DELETE FROM yhska09_regions.
     INSERT yhska09_regions FROM TABLE @itab_regions.
 
@@ -79,39 +75,40 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
     lv_html_parser->get_data( EXPORTING im_region = 'ALL'
                                         im_types_db = itab_types
                               CHANGING  ch_cnt = cnt
-                                        ch_lang_db = itab_lang ).
+                                        ch_lang_db = lt_lang_db ).
 
     lv_html_parser->get_data( EXPORTING im_region = 'DE'
                                         im_types_db = itab_types
                               CHANGING  ch_cnt = cnt
-                                        ch_lang_db = itab_lang ).
+                                        ch_lang_db = lt_lang_db ).
 
     lv_html_parser->get_data( EXPORTING im_region = 'US'
                                         im_types_db = itab_types
                               CHANGING  ch_cnt = cnt
-                                        ch_lang_db = itab_lang ).
+                                        ch_lang_db = lt_lang_db ).
 
     lv_html_parser->get_data( EXPORTING im_region = 'IN'
                                         im_types_db = itab_types
                               CHANGING  ch_cnt = cnt
-                                        ch_lang_db = itab_lang ).
+                                        ch_lang_db = lt_lang_db ).
 
     lv_html_parser->get_data( EXPORTING im_region = 'GB'
                                         im_types_db = itab_types
                               CHANGING  ch_cnt = cnt
-                                        ch_lang_db = itab_lang ).
+                                        ch_lang_db = lt_lang_db ).
 
     lv_html_parser->get_data( EXPORTING im_region = 'FR'
                                         im_types_db = itab_types
                               CHANGING  ch_cnt = cnt
-                                        ch_lang_db = itab_lang ).
+                                        ch_lang_db = lt_lang_db ).
     DELETE FROM yhska09_language.
-    INSERT yhska09_language FROM TABLE @itab_lang.
+    INSERT yhska09_language FROM TABLE @lt_lang_db.
 
-    SELECT * FROM yhska09_language INTO TABLE @itab_lang.
+    SELECT * FROM yhska09_language INTO TABLE @lt_lang_db.
     out->write( sy-dbcnt ).
     out->write( 'Programming Language data inserted successfully!').
 
-  ENDMETHOD.
 
+
+  ENDMETHOD.
 ENDCLASS.
