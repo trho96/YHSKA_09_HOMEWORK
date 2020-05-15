@@ -52,6 +52,8 @@ define root view entity ZC_LANGUAGE_HSKA09
           lineItem:       [ { position: 40, importance: #HIGH } ],
           identification: [ { position: 40, label: 'Region' } ]
       }
+      @Consumption.valueHelpDefinition: [{ entity : {name: 'ZI_REGION_HSKA09', element: 'region'  } }]
+      @Search.defaultSearchElement: true
       region,
 
       @UI: {
@@ -83,6 +85,8 @@ define root view entity ZC_LANGUAGE_HSKA09
           lineItem:[ { position: 90, importance: #HIGH }],
           identification: [ { position: 90, label: 'Language ID' } ]
       }
+      @Consumption.valueHelpDefinition: [ { entity : {name: 'ZI_TYPES_HSKA09', element: 'language_id'  } } ]
+      @Search.defaultSearchElement: true
       language_id,
       
       Criticality
