@@ -32,6 +32,24 @@
      <MSGNR>004</MSGNR>
      <TEXT>Region not existing.</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>YHSKA09_LANG</ARBGB>
+     <MSGNR>005</MSGNR>
+     <TEXT>Popularity should not be empty.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>YHSKA09_LANG</ARBGB>
+     <MSGNR>006</MSGNR>
+     <TEXT>Trend should not be empty.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>YHSKA09_LANG</ARBGB>
+     <MSGNR>007</MSGNR>
+     <TEXT>Region should not be empty.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

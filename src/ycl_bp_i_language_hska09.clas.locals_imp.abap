@@ -18,7 +18,6 @@ CLASS lhc_language IMPLEMENTATION.
         FOR <root_key> IN keys ( %key     = <root_key>
                                  %control = VALUE #( language_id = if_abap_behv=>mk-on ) ) )
         RESULT DATA(lt_language).
-
     DATA lt_languages TYPE SORTED TABLE OF yhska09_language WITH UNIQUE KEY language_id.
 
 *   Extract distinct non-initial language ids
@@ -34,7 +33,7 @@ CLASS lhc_language IMPLEMENTATION.
 
 *   Raise msg for non existing language id
     LOOP AT lt_language INTO DATA(ls_language).
-      IF ls_language-language_id IS NOT INITIAL AND NOT line_exists( lt_language_db[ language_id = ls_language-language_id ] ).
+       IF ls_language-language_id IS NOT INITIAL AND NOT line_exists( lt_language_db[ language_id = ls_language-language_id ] ).
         APPEND VALUE #(  listing_id = ls_language-listing_id ) TO failed.
         APPEND VALUE #(  listing_id = ls_language-listing_id
                          %msg      = new_message( id       = 'YHSKA09_LANG'
@@ -58,7 +57,17 @@ CLASS lhc_language IMPLEMENTATION.
 
 *   Raise msg if the value of popularity is not between 0 and 100
     LOOP AT lt_language INTO DATA(ls_language).
-      IF ls_language-popularity GT 100 OR ls_language-popularity LT 0.
+      IF ls_language-popularity IS INITIAL.
+        APPEND VALUE #(  %key = ls_language-%key
+                            listing_id = ls_language-listing_id ) TO failed.
+        APPEND VALUE #( %key = ls_language-%key
+                  %msg  = new_message(
+                    id   = 'YHSKA09_LANG'
+                    number = '005'
+                    severity = if_abap_behv_message=>severity-error )
+                  %element-listing_id = if_abap_behv=>mk-on ) TO reported.
+
+      ELSEIF ls_language-popularity GT 100 OR ls_language-popularity LT 0.
         APPEND VALUE #(  listing_id = ls_language-listing_id ) TO failed.
         APPEND VALUE #(  listing_id = ls_language-listing_id
                          %msg      = new_message( id       = 'YHSKA09_LANG'
@@ -82,7 +91,17 @@ CLASS lhc_language IMPLEMENTATION.
 
 *   Raise msg if the value of trend is not between -100 and 100
     LOOP AT lt_language INTO DATA(ls_language).
-      IF ls_language-trend > 100 OR ls_language-trend < -100.
+      IF ls_language-popularity IS INITIAL.
+        APPEND VALUE #(  %key = ls_language-%key
+                            listing_id = ls_language-listing_id ) TO failed.
+        APPEND VALUE #( %key = ls_language-%key
+                  %msg  = new_message(
+                    id   = 'YHSKA09_LANG'
+                    number = '006'
+                    severity = if_abap_behv_message=>severity-error )
+                  %element-listing_id = if_abap_behv=>mk-on ) TO reported.
+
+      ELSEIF ls_language-trend > 100 OR ls_language-trend < -100.
         APPEND VALUE #(  listing_id = ls_language-listing_id ) TO failed.
         APPEND VALUE #(  listing_id = ls_language-listing_id
                          %msg      = new_message( id       = 'YHSKA09_LANG'
@@ -117,7 +136,17 @@ CLASS lhc_language IMPLEMENTATION.
 
 *   Raise msg for non existing region
     LOOP AT lt_language INTO DATA(ls_language).
-      IF ls_language-language_id IS NOT INITIAL AND NOT line_exists( lt_language_db[ region = ls_language-region ] ).
+      IF ls_language-popularity IS INITIAL.
+        APPEND VALUE #(  %key = ls_language-%key
+                            listing_id = ls_language-listing_id ) TO failed.
+        APPEND VALUE #( %key = ls_language-%key
+                  %msg  = new_message(
+                    id   = 'YHSKA09_LANG'
+                    number = '007'
+                    severity = if_abap_behv_message=>severity-error )
+                  %element-listing_id = if_abap_behv=>mk-on ) TO reported.
+
+      ELSEIF ls_language-language_id IS NOT INITIAL AND NOT line_exists( lt_language_db[ region = ls_language-region ] ).
         APPEND VALUE #(  listing_id = ls_language-listing_id ) TO failed.
         APPEND VALUE #(  listing_id = ls_language-listing_id
                          %msg      = new_message( id       = 'YHSKA09_LANG'
