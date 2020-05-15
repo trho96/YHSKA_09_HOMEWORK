@@ -1,18 +1,18 @@
 unmanaged implementation in class ycl_bp_i_types_hska09 unique;
 
 define behavior for ZI_TYPES_HSKA09 alias LanguageTypes
-//persistent table yhska09_types
 lock master
-//authorization master ( instance )
 {
-field ( mandatory ) language_id, name, rating, Blacklisted, Publishing_Year;
-create;
-update;
-delete;
+
+  field ( mandatory ) language_id, name, rating, Blacklisted, Publishing_Year;
+
+  // default actions
+  create;
+  update;
+  delete;
+
   // instance action and dynamic action control
-action acceptBlacklisted;
-// determination
-//determination CalculateLanguageKey on modify
-//{ create; }
+  // action for changing the Blacklisted value
+  action acceptBlacklisted;
 
 }
