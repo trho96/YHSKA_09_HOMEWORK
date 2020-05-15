@@ -5,6 +5,5 @@ CLASS ycl_bp_i_language_hska09 DEFINITION
 ENDCLASS.
 
 
-
 CLASS ycl_bp_i_language_hska09 IMPLEMENTATION.
 ENDCLASS.

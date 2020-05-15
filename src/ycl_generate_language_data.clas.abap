@@ -16,7 +16,9 @@ CLASS ycl_generate_language_data DEFINITION
       lv_html_table TYPE string_table.
 ENDCLASS.
 
+
 CLASS ycl_generate_language_data IMPLEMENTATION.
+
   METHOD if_oo_adt_classrun~main.
 
 *   Filling internal table of programming language types
@@ -96,7 +98,6 @@ CLASS ycl_generate_language_data IMPLEMENTATION.
     out->write( sy-dbcnt ).
     out->write( 'Programming Language data inserted successfully!').
 
-
-
   ENDMETHOD.
+
 ENDCLASS.
